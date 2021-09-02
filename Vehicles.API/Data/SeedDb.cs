@@ -6,18 +6,22 @@ using Vehicles.API.Data.Entities;
 
 namespace Vehicles.API.Data
 {
-    public class SeeDb
+    public class SeedDb
     {
         private readonly DataContext _context;
-        public SeeDb(DataContext context)
+
+        public SeedDb(DataContext context)
         {
             _context = context;
         }
 
-        public async Task SeeAsync() 
+        public async Task  SeedAsyn()
         {
+
             await _context.Database.EnsureCreatedAsync();
             await CheckVehiclesTypeAsync();
+            await CheckBrandsAsync();
+            await CheckDocumentTypesAsync();
             await CheckProceduresAsync();
         }
 
@@ -55,6 +59,42 @@ namespace Vehicles.API.Data
             }
         }
 
+        private async Task CheckDocumentTypesAsync()
+        {
+            if (!_context.DocumentTypes.Any())
+            {
+                _context.DocumentTypes.Add(new DocumentType { Description = "Cédula" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Tarjeta de Identidad" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "NIT" });
+                _context.DocumentTypes.Add(new DocumentType { Description = "Pasaporte" });
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckBrandsAsync()
+        {
+            if (!_context.Brands.Any())
+            {
+                _context.Brands.Add(new Brand { Description = "Ducati" });
+                _context.Brands.Add(new Brand { Description = "Harley Davidson" });
+                _context.Brands.Add(new Brand { Description = "KTM" });
+                _context.Brands.Add(new Brand { Description = "BMW" });
+                _context.Brands.Add(new Brand { Description = "Triumph" });
+                _context.Brands.Add(new Brand { Description = "Victoria" });
+                _context.Brands.Add(new Brand { Description = "Honda" });
+                _context.Brands.Add(new Brand { Description = "Suzuki" });
+                _context.Brands.Add(new Brand { Description = "Kawasaky" });
+                _context.Brands.Add(new Brand { Description = "TVS" });
+                _context.Brands.Add(new Brand { Description = "Bajaj" });
+                _context.Brands.Add(new Brand { Description = "AKT" });
+                _context.Brands.Add(new Brand { Description = "Yamaha" });
+                _context.Brands.Add(new Brand { Description = "Chevrolet" });
+                _context.Brands.Add(new Brand { Description = "Mazda" });
+                _context.Brands.Add(new Brand { Description = "Renault" });
+                await _context.SaveChangesAsync();
+            }
+        }
+
         private async Task CheckVehiclesTypeAsync()
         {
             if (!_context.VehiclesTypes.Any())
@@ -64,5 +104,7 @@ namespace Vehicles.API.Data
                 await _context.SaveChangesAsync();
             }
         }
-    }
+    }      
 }
+    
+

@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Vehicles.API.Data;
+using Vehicles.API.Data.Entities;
+
 
 namespace Vehicles.API
 {
@@ -17,7 +20,7 @@ namespace Vehicles.API
 
         public IConfiguration Configuration { get; }
 
- 
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -26,7 +29,7 @@ namespace Vehicles.API
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddTransient<SeeDb>();
+            services.AddTransient<SeedDb>();
         }
 
 
@@ -39,7 +42,7 @@ namespace Vehicles.API
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

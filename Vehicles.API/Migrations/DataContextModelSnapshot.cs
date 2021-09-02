@@ -38,6 +38,26 @@ namespace Vehicles.API.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("Vehicles.API.Data.Entities.DocumentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Description")
+                        .IsUnique();
+
+                    b.ToTable("DocumentTypes");
+                });
+
             modelBuilder.Entity("Vehicles.API.Data.Entities.VehicleType", b =>
                 {
                     b.Property<int>("id")

@@ -9,8 +9,8 @@ using Vehicles.API.Data;
 namespace Vehicles.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210828173536_addTableBrand")]
-    partial class addTableBrand
+    [Migration("20210830024754_addTableVehicleType")]
+    partial class addTableVehicleType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,26 @@ namespace Vehicles.API.Migrations
                         .IsUnique();
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("Vehicles.API.Data.Entities.DocumentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Description")
+                        .IsUnique();
+
+                    b.ToTable("DocumentTypes");
                 });
 
             modelBuilder.Entity("Vehicles.API.Data.Entities.VehicleType", b =>

@@ -13,15 +13,15 @@ namespace Vehicles.API
             IWebHost host = CreateWebHostBuilder(args).Build();
             RunSeeding(host);
             host.Run();
-        }
 
+        }
         private static void RunSeeding(IWebHost host)
         {
             IServiceScopeFactory scopeFactory = host.Services.GetService<IServiceScopeFactory>();
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
-                SeeDb seeder = scope.ServiceProvider.GetService<SeeDb>();
-                seeder.SeeAsync().Wait();
+                SeedDb seeder = scope.ServiceProvider.GetService<SeedDb>();
+                seeder.SeedAsyn().Wait();
             }
         }
 

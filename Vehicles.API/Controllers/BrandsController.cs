@@ -1,43 +1,42 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Vehicles.API.Data;
 using Vehicles.API.Data.Entities;
 
-
 namespace Vehicles.API.Controllers
 {
-    public class BrandsControllers : Controller
+    public class BrandsController : Controller
     {
         private readonly DataContext _context;
-        public BrandsControllers(DataContext context)
+
+        public BrandsController(DataContext context)
         {
             _context = context;
         }
-
 
         public async Task<IActionResult> Index()
         {
             return View(await _context.Brands.ToListAsync());
         }
 
-
         public IActionResult Create()
         {
             return View();
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Brand brands)
+        public async Task<IActionResult> Create(Brand brand)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(brands);
+                    _context.Add(brand);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -51,16 +50,15 @@ namespace Vehicles.API.Controllers
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
-
                 }
                 catch (Exception exception)
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(brands);
-        }
 
+            return View(brand);
+        }
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -69,20 +67,20 @@ namespace Vehicles.API.Controllers
                 return NotFound();
             }
 
-            procedure procedure = await _context.Procedures.FindAsync(id);
-            if (procedure == null)
+            Brand brand = await _context.Brands.FindAsync(id);
+            if (brand == null)
             {
                 return NotFound();
             }
-            return View(procedure);
-        }
 
+            return View(brand);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, procedure procedure)
+        public async Task<IActionResult> Edit(int id, Brand brand)
         {
-            if (id != procedure.id)
+            if (id != brand.id)
             {
                 return NotFound();
             }
@@ -91,7 +89,7 @@ namespace Vehicles.API.Controllers
             {
                 try
                 {
-                    _context.Update(procedure);
+                    _context.Update(brand);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -99,24 +97,20 @@ namespace Vehicles.API.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe este procedimiento");
+                        ModelState.AddModelError(string.Empty, "Ya existe esta marca.");
                     }
                     else
                     {
                         ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
-
                 }
                 catch (Exception exception)
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
-
-
             }
-            return View(procedure);
+            return View(brand);
         }
-
 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -125,13 +119,14 @@ namespace Vehicles.API.Controllers
                 return NotFound();
             }
 
-            procedure procedure = await _context.Procedures
+            Brand brand = await _context.Brands
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (procedure == null)
+            if (brand == null)
             {
                 return NotFound();
             }
-            _context.Procedures.Remove(procedure);
+
+            _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

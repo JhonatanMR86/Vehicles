@@ -8,7 +8,7 @@ using Vehicles.API.Data.Entities;
 
 namespace Vehicles.API.Data
 {
-    public class DataContext :  DbContext //IdentityDbContext<User>
+    public class DataContext :  IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -20,7 +20,6 @@ namespace Vehicles.API.Data
         public DbSet<DocumentType> DocumentTypes { get; set; }
 
        
-
         public DbSet<VehicleType> VehiclesTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

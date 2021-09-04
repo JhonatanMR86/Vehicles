@@ -21,9 +21,10 @@ namespace Vehicles.API
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 SeedDb seeder = scope.ServiceProvider.GetService<SeedDb>();
-                seeder.SeedAsyn().Wait();
+                seeder.SeedAsync().Wait();
             }
         }
+
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {

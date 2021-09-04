@@ -16,5 +16,8 @@ namespace Vehicles.API.Data.Entities
         public string Description { get; set; }
 
 
+
+        public ICollection<User> Users { get; set; }
+
     }
 }
